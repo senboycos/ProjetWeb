@@ -38,11 +38,6 @@ class Utilisateur
     private $prenom;
 
     /**
-     * @ORM\Column(name="date_naissance", type="datetime")
-     */
-    private $dateAnniv;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isadmin;
@@ -51,6 +46,11 @@ class Utilisateur
      * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="client", cascade={"persist"})
      */
     private $panier;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $DateAniv;
 
     public function getId(): ?int
     {
@@ -104,19 +104,6 @@ class Utilisateur
 
         return $this;
     }
-
-    public function getDateAnniv(): ?\DateTimeInterface
-    {
-        return $this->dateAnniv;
-    }
-
-    public function setDateAnniv(\DateTimeInterface $dateAnniv): self
-    {
-        $this->dateAnniv = $dateAnniv;
-
-        return $this;
-    }
-
     public function getIsadmin(): ?bool
     {
         return $this->isadmin;
@@ -142,6 +129,18 @@ class Utilisateur
         }
 
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getDateAniv(): ?\DateTimeInterface
+    {
+        return $this->DateAniv;
+    }
+
+    public function setDateAniv(\DateTimeInterface $DateAniv): self
+    {
+        $this->DateAniv = $DateAniv;
 
         return $this;
     }

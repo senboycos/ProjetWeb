@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href={{ asset('css/style.css') }}>
+        {% endblock %}
+    </head>
+    <header>
+        <div>
+            {% if isAdmin is defined %}
+                {% if isAdmin %}
+                    <img src="{{ asset('images/admin.png') }}" alt="Symfony!"/>
+                {% else %}
+                    <img src="{{ asset('images/authentification.png') }}" alt="Symfony!"/>
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('images/unauthorized.png') }}" alt="Symfony!"/>
+            {% endif %}
+        </div>
+    </header>
+    <body>
+        <ul>
+            {% set flash = app.session.flashBag.get('info') %}
+            {% if flash != NULL %}
+                Messages flash :
+                {% for msg in flash %}
+                    <li>{{ msg }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+        {% block body %}
+            {% block menu %}{% endblock %}
+            {% block content %}{% endblock %}
+        {% endblock %}
+    </body>
+    <div class="footer-basic">
+        <footer>
+            <strong><p class="copyright">recopier</p></strong>
+            <img class="footer" src="{{ asset('images/footer.png') }}" alt="Footer image!"/>
+        </footer>
+    </div>
+</html>
+

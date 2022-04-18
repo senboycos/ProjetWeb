@@ -1,0 +1,27 @@
+{% extends 'templateG/base.html.twig'  %}
+{% block title %}
+    {% if isAdmin %}
+        Page d'accueil admin!
+    {% else %}
+        Page d'accueil client!
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        {% if isAdmin %}
+            <h1>Hello {{ user.prenom }}! Tu es un admin ✅ </h1>
+        {% else %}
+            <h1>Hello {{ user.prenom }}! Tu n'es pas un admin ✅ </h1>
+        {% endif %}
+    </div>
+    {% block menu %}
+        {% include 'menu/menu.html.twig' with {'isAdmin':isAdmin } %}
+    {% endblock %}
+{% endblock %}
+

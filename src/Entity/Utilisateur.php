@@ -50,7 +50,7 @@ class Utilisateur
     /**
      * @ORM\Column(type="date")
      */
-    private $DateAniv;
+    private $dateAniv;
 
     public function getId(): ?int
     {
@@ -135,12 +135,12 @@ class Utilisateur
 
     public function getDateAniv(): ?\DateTimeInterface
     {
-        return $this->DateAniv;
+        return $this->dateAniv;
     }
 
-    public function setDateAniv(\DateTimeInterface $DateAniv): self
+    public function setDateAniv(\DateTimeInterface $dateAniv): self
     {
-        $this->DateAniv = $DateAniv;
+        $this->dateAniv = $dateAniv;
 
         return $this;
     }

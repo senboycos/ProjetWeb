@@ -1,0 +1,45 @@
+{% extends 'templateG/base.html.twig'  %}
+
+{% block content %}
+<form method="post" action="{{ path('panier_commande') }}">
+    <table>
+        <tr>
+            <th>Libellé</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Choix</th>
+        </tr>
+        {% for produit in produits %}
+        <tr>
+            <td id="libelle">{{ produit.libelle }}</td>
+            <td id="prix">{{ produit.prix }}</td>
+            <td id="quantite">{{ produit.quantite }}</td>
+            <td>
+
+                <select name="selectedQuantite[{{ produit.id }}]">
+                    {% if produit.quantite > 0 %}
+                        {% for i in 0..produit.quantite %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    {% endif %}
+
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Ajouter au Panier">
+            </td>
+        </tr>
+        <tr>
+        </tr>
+    </table>
+</form>
+    <td colspan="2">
+        <form action="{{ path('panier_affiche') }}">
+            <input type="submit" value="Voir le Panier" />
+        </form>
+
+    </td>
+{% endblock %}

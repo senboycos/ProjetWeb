@@ -1,0 +1,29 @@
+{% extends 'templateG/base.html.twig' %}
+
+{% block content %}
+        <table>
+            <tr>
+                <th>Login</th>
+                <th>Mot de passe (crypté)</th>
+                <th>Nom et Prénom</th>
+                <th>Date de naissance</th>
+                <th>Statut</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td id="login">{{ user.login }}</td>
+                    <td id="motdepasse">{{ user.motdepasse }}</td>
+                    <td id="nomprenom">{{ user.nom }} {{ user.prenom }}</td>
+                    <td id="datenaissance">{{ user.dateAniv | date('Y-m-d') }}</td>
+                    <td id="statut">{% if user.isadmin %}Admin{% else %}Client{% endif %}</td>
+                    {% if user.id != me and user.isAdmin==false %}
+                    <td><a href="supprimer/{{ user.id }}">Supprimer</a></td>
+                    {% endif %}
+                </tr>
+
+            {% endfor %}
+        </table>
+    </form>
+    <br/>
+    <button type="button" onclick="location.href = '{{path('acceuil')}}';">Retour à l'accueil</button>
+{% endblock %}

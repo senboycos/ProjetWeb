@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @ORM\Entity(repositoryClass=PanierPorduitRepository::class)
  */
-class PanierPorduit
+class PanierProduit
 {
     /**
      * @ORM\Id
@@ -39,6 +39,7 @@ class PanierPorduit
      * @ORM\Column(type="integer")
      */
     private $quantite;
+
 
     public function getId(): ?int
     {

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -72,4 +74,16 @@ class Produit
 
         return $this;
     }
+    /**
+     * @Assert\Callback()
+     */
+ public function verifQuantite(ExecutionContextInterface $context)
+ {
+    if ($this->quantite < 0)
+    {
+            $context->buildViolation('incoherence entre quantite ')
+            ->atPath('quantite neg')
+            ->addViolation();
+    }
+ }
 }

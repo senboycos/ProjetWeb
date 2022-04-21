@@ -1,0 +1,43 @@
+{% extends 'templateG/base.html.twig'  %}
+
+{% block content %}
+{% set total = 0 %}
+    <form>
+        <table border="solid">
+            <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix Unite</th>
+                <th>Prix Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for panierproduit in panierproduits %}
+                <tr>
+                    <td id="libelle">{{ panierproduit.Produit.libelle }}</td>
+                    <td id="quantite">{{ panierproduit.quantite }}</td>
+                    <td id="prix">{{ panierproduit.Produit.prix }}</td>
+                    <td id="prixtot">{{ panierproduit.Produit.prix * panierproduit.quantite }}</td>
+                    <td><a href="supprimerProduit/{{ panierproduit.id }}">Supprimer</a></td>
+                </tr>
+                {% set total = total + panierproduit.Produit.prix * panierproduit.quantite %}
+            {% endfor %}
+            <tr>
+                <td colspan="4">
+                    Prix Total = {{ total }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="button" onclick="location.href = '{{path('panier_valider')}}';">Commande</button>
+                </td>
+
+                    <td colspan="2">
+                        <button type="button" onclick="location.href = '{{path('panier_supprimer_all')}}';">Vider Panier</button>
+                    </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+{% endblock %}

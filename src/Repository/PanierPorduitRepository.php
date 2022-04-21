@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\PanierPorduit;
+use App\Entity\PanierProduit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method PanierPorduit|null find($id, $lockMode = null, $lockVersion = null)
- * @method PanierPorduit|null findOneBy(array $criteria, array $orderBy = null)
- * @method PanierPorduit[]    findAll()
- * @method PanierPorduit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PanierProduit|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PanierProduit|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PanierProduit[]    findAll()
+ * @method PanierProduit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PanierPorduitRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PanierPorduit::class);
+        parent::__construct($registry, PanierProduit::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(PanierPorduit $entity, bool $flush = true): void
+    public function add(PanierProduit $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class PanierPorduitRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(PanierPorduit $entity, bool $flush = true): void
+    public function remove(PanierProduit $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class PanierPorduitRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return PanierPorduit[] Returns an array of PanierPorduit objects
+    //  * @return PanierProduit[] Returns an array of PanierProduit objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class PanierPorduitRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PanierPorduit
+    public function findOneBySomeField($value): ?PanierProduit
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

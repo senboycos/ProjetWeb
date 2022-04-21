@@ -67,5 +67,61 @@ class UtilisateurController extends AbstractController
         $args = array('myform' => $form->createView());
         return $this->render('utilisateur/addU.html.twig', $args);
     }
+    /**
+     * @Route("/modifAllUser", name="_modif_all")
+     */
+    public function editAll(EntityManagerInterface $em,Request $request): Response
+    {
+        $utilisateursRepository = $em->getRepository('App:Utilisateur');
+        $users = $utilisateursRepository->findAll();
+
+        $user = $utilisateursRepository->find($this->getParameter('me'));
+        if($user != null){
+            if($user->getIsAdmin() == true) {
+                return $this->render('utilisateur/editAll.html.twig', ['users' => $users, 'me' => $this->getParameter('me')]);
+            } else {
+                throw $this->createNotFoundException('Tu essaies d\'acceder à une page admin');
+            }
+        }else {
+            throw $this->createNotFoundException("L utilisateur n'existe pas");
+        }
+
+    }
+    /**
+     * @Route("/supprimer/{idUser}", name="_supprimer")
+     */
+    public function supprimeUserAction(EntityManagerInterface $em, Request $request,$idUser): Response
+    {
+        $userRepository = $em->getRepository('App:Utilisateur');
+
+        $me = $userRepository->find($this->getParameter('me'));
+        if($me->getIsAdmin() == true){
+            //Signifie qu'il est admin
+
+            $panierRepository = $em->getRepository('App:Panier');
+            $panierproduitRepository = $em->getRepository('App:PanierProduit');
+
+            $user = $userRepository->find($idUser);
+            $panier=$user->getPanier();
+            if($user != null ){
+                $panierproduits =$panierproduitRepository->findBy(['panier' => $panier]);
+                foreach ($panierproduits as $panierproduit){
+                    $produit = $panierproduit->getProduit();
+                    $produit->setQuantite($produit->getQuantite() + $panierproduit->getQuantite());
+                    $em->persist($produit);
+                    $em->remove($panier);
+                    $em->remove($panierproduit);
+                }
+            }
+            else {
+                throw $this->createNotFoundException("L'utilisateur n'existe pas");
+            }
+            $em->remove($user);
+            $em->flush();
+            return $this->redirectToRoute('utilisateur_modif_all');
+        } else {
+            throw $this->createNotFoundException('Tu essaies d\'acceder à une page admin');
+        }
+    }
 
 }

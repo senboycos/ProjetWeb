@@ -92,5 +92,54 @@ class PanierController extends AbstractController
 
         return $this->redirectToRoute('produit_affiche');
     }
-    
+    /**
+     * @Route("/supprimerAllPanier", name="_supprimer_all")
+     */
+    public function supprimeAllAction(EntityManagerInterface $em,Request $request): Response
+    {
+        $userRepository = $em->getRepository('App:Utilisateur');
+        $panierRepository = $em->getRepository('App:Panier');
+        $panierproduitRepository = $em->getRepository('App:PanierProduit');
+        $user = $userRepository->find($this->getParameter('me'));
+
+        $paniers = $panierRepository->findBy(
+            ['client'=>$user]
+        );
+        $panierproduits=$panierproduitRepository->findBy(
+            ['panier'=>$paniers[0]]
+        );
+        foreach ($panierproduits as $panierproduit){
+            $produit=$panierproduit->getProduit();
+            $produit->setQuantite($produit->getQuantite() + $panierproduit->getQuantite());
+            $em->remove($panierproduit);
+            $em->persist($produit);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('produit_affiche');
+    }
+    /**
+     * @Route("/validerPanier", name="_valider")
+     */
+    public function validerPanierAction(EntityManagerInterface $em,Request $request): Response
+    {
+        $userRepository = $em->getRepository('App:Utilisateur');
+        $panierRepository = $em->getRepository('App:Panier');
+        $panierproduitRepository = $em->getRepository('App:PanierProduit');
+        $user = $userRepository->find($this->getParameter('me'));
+
+        $paniers = $panierRepository->findBy(
+            ['client'=>$user]
+        );
+        $panierproduits=$panierproduitRepository->findBy(
+            ['panier'=>$paniers[0]]
+        );
+        foreach ($panierproduits as $panierproduit){
+            $em->remove($panierproduit);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('produit_affiche');
+    }
+
 }

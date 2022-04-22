@@ -41,6 +41,32 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/addU.html.twig',$args);
     }
     /**
+     * @Route("/addUserA",
+     *     name="_addUserA",
+     *     )
+     */
+    public function addUserAAction(EntityManagerInterface $em, Request $request): Response
+    {
+        $utilisateurRepository = $em->getRepository('App:Utilisateur');
+        $user = $utilisateurRepository->find($this->getParameter('me'));
+        if($user->getIsAdmin() == true){
+        $utilisateur = new Utilisateur();
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->add('send', SubmitType::class, ['label' => 'edit utilisateur']);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $utilisateur->setIsadmin(true);
+            $em->persist($utilisateur);
+            $em->flush();
+            $this->addFlash('info','edition utilsateur reussit');
+            return $this->redirectToRoute('acceuil');
+        }
+        $args = array('myform' => $form->createView());
+        return $this->render('utilisateur/addU.html.twig',$args);
+        }
+    }
+    /**
      * @Route("/edit", name="edit_profil")
      */
     public function editProfil(EntityManagerInterface $em, Request $request): Response
@@ -54,13 +80,12 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $user->setIsadmin(false);
+          //  $user->setIsadmin(false);
             $em->persist($user);
             $em->flush();
             $this->addFlash('info', 'edition ok');
             return $this->redirectToRoute('acceuil');
         }
-
         if ($form->isSubmitted())
             $this->addFlash('info', 'edition erreur');
 

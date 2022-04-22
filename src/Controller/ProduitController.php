@@ -37,4 +37,42 @@ class ProduitController extends AbstractController
             'isAdmin' => $isAdmin,
         ]);
     }
+    /**
+     * @Route("/ajouter", name="_ajouter")
+     */
+    public function ajouterProduitAction(EntityManagerInterface $em,Request $request): Response
+    {
+        $userRepository = $em->getRepository('App:Utilisateur');
+
+        $user = $userRepository->find($this->getParameter('me'));
+
+        $isAdmin = false ;
+
+        if($user !== null){
+            $isAdmin = $user->getIsAdmin();
+            if($isAdmin != true){
+                return $this->redirectToRoute('login');
+            }
+        }
+
+        $produit = new Produit();
+
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->add('send', SubmitType::class, ['label' => 'Ajout Produit']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($produit);
+            $em->flush();
+            $this->addFlash('info', 'ajout ok');
+            return $this->redirectToRoute('produit_affiche');
+        }
+
+        if ($form->isSubmitted())
+            $this->addFlash('info', 'ajout erreur');
+
+        $args = array('myform' => $form->createView(), 'isAdmin' => $isAdmin);
+        return $this->render('produit/ajout.html.twig', $args);
     }
+}

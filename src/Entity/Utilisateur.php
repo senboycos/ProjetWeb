@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -133,14 +134,16 @@ class Utilisateur
         return $this;
     }
 
-    public function getDateAniv(): ?\DateTimeInterface
+    public function getDateAniv(): ?string
     {
-        return $this->dateAniv;
+        if ($this->dateAniv==null)
+            return $this->dateAniv;
+        return $this->dateAniv->format('Y-m-d ');
     }
 
-    public function setDateAniv(\DateTimeInterface $dateAniv): self
+    public function setDateAniv(string $dateAniv): self
     {
-        $this->dateAniv = $dateAniv;
+        $this->dateAniv =new DateTime($dateAniv);
 
         return $this;
     }

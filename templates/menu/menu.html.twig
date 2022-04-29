@@ -4,16 +4,16 @@
        {% if isAdmin == false %}
           <p>Menu des non admins :</p>
            <ul>Disconnect : <a>Deconnexion</a> </ul>
-           <ul>Home : <a>Accueil</a> </ul>
-           <ul>Gérer profil : <a>Gerer profil</a> </ul>
-           <ul>Lister produit : <a>Produits</a> </ul>
-           <ul>Mon panier : <a>Mon Panier</a> </ul>
+           <ul>Home : <a href="{{ path('accueil') }}">Accueil</a> </ul>
+           <ul>Gérer profil : <a href="{{ path('utilisateur_edit_profil') }}">Gerer profil</a> </ul>
+           <ul>Lister produit : <a href="{{ path('produit_affiche') }}">Produits</a> </ul>
+           <ul>Mon panier : <a href="{{ path('panier_affiche') }}">Mon Panier</a> </ul>
        {% else %}
         <p>Menu des admins : </p>
            <ul>Disconnect : <a >Deconnexion</a> </ul>
            <ul>Home : <a >Accueil</a> </ul>
-           <ul>Gérer client : <a>Gerer client</a> </ul>
-           <ul>Créer produit : <a>New produit</a> </ul>
+           <ul>Gérer client : <a href="{{ path('utilisateur_modif_all') }}">Gerer client</a> </ul>
+           <ul>Créer produit : <a href="{{ path('produit_ajouter') }}">New produit</a> </ul>
            <ul>Lien vers 'Amour Et Amnésie' : <a href="https://fr.wikipedia.org/wiki/Amour_et_Amn%C3%A9sie">Lien</a> </ul>
        {% endif %}
 

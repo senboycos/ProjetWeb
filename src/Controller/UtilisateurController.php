@@ -67,7 +67,7 @@ class UtilisateurController extends AbstractController
         }
     }
     /**
-     * @Route("/edit", name="edit_profil")
+     * @Route("/edit", name="_edit_profil")
      */
     public function editProfil(EntityManagerInterface $em, Request $request): Response
     {

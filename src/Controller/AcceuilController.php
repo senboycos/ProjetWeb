@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MyService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,14 @@ class AcceuilController extends AbstractController
     /**
      * @Route("/", name="acceuil")
      */
-    public function indexAction(ManagerRegistry $doctrine): Response
+    public function indexAction(ManagerRegistry $doctrine,MyService $monbonjour): Response
     {
+        //utilisation d'un service
+
+        $message = $monbonjour->getHappyMessage();
+        $this->addFlash('info', $message);
+
+
         $userExists = false;
         $isAdmin = false;
         $idUser = $this->getParameter('me');
